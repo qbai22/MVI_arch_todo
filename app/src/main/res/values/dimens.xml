@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Text Sizes -->
+    <dimen name="description_text_size">16sp</dimen>
+    <dimen name="details_date_text_size">16sp</dimen>
+    <dimen name="notes_text_size">16sp</dimen>
+    <dimen name="details_description_text_size">24sp</dimen>
+
+    <dimen name="complete_icon_size">48dp</dimen>
+
+</resources>
