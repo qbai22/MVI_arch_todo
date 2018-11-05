@@ -13,6 +13,10 @@ import android.support.annotation.NonNull;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Created by Vladimir Kraev
+ */
+
 @Entity(tableName = "todoes", indices = @Index(value = "id"))
 public class ToDoEntity {
     @PrimaryKey
@@ -40,10 +44,33 @@ public class ToDoEntity {
         this.createdOn = createdOn;
     }
 
+    public static ToDoEntity fromModel(ToDoModel model) {
+        return new ToDoEntity(
+                model.id(),
+                model.description(),
+                model.notes(),
+                model.isCompleted(),
+                model.createdOn()
+        );
+    }
+
+    public ToDoModel toModel(){
+        return ToDoModel.builder()
+                .id(this.id)
+                .description(this.description)
+                .notes(this.notes)
+                .isCompleted(this.isCompleted)
+                .createdOn(this.createdOn)
+                .build();
+    }
+
     @Dao
     public interface Store {
         @Query("SELECT * FROM todoes ORDER BY description DESC")
         List<ToDoEntity> getAll();
+
+        @Query("DELETE FROM todoes")
+        void deleteAll();
 
         @Insert
         void insert(ToDoEntity... entities);

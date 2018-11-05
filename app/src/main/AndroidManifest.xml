@@ -10,6 +10,7 @@
         android:xlargeScreens="true" />
 
     <application
+        android:name=".ToDoApp"
         android:theme="@style/AppCompatTheme.NoActionBar"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"

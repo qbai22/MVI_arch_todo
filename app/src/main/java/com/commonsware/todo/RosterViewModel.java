@@ -13,6 +13,10 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.ReplaySubject;
 
+/**
+ * Created by Vladimir Kraev
+ */
+
 public class RosterViewModel extends AndroidViewModel {
 
     private LiveData<ViewState> states;
@@ -25,7 +29,7 @@ public class RosterViewModel extends AndroidViewModel {
     public RosterViewModel(@NonNull Application application) {
         super(application);
 
-        Controller controller = new Controller();
+        Controller controller = new Controller(application);
         controller.resultStream()
                 .subscribe(result -> {
                     lastState = foldResultIntoState(lastState, result);
@@ -38,7 +42,6 @@ public class RosterViewModel extends AndroidViewModel {
                 .fromPublisher(stateSubject.toFlowable(BackpressureStrategy.LATEST));
 
         process(Action.load());
-
     }
 
     public LiveData<ViewState> stateStream() {
@@ -65,10 +68,11 @@ public class RosterViewModel extends AndroidViewModel {
 
         else if (result instanceof Result.Loaded) {
             List<ToDoModel> models = ((Result.Loaded) result).models();
-
+            //android.os.SystemClock.sleep(2222);
             return ViewState.builder()
                     .itemList(models)
                     .current(models.isEmpty() ? null : models.get(0))
+                    .isLoaded(true)
                     .build();
 
         } else throw new IllegalStateException("Unexpected result type" + result.toString());

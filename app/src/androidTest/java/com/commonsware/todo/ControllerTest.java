@@ -1,7 +1,11 @@
 package com.commonsware.todo;
 
 
+import android.app.Application;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -16,10 +20,16 @@ public class ControllerTest {
 
     private static final int POLL_DURATION = 500;
 
+    @Before
+    public void setUp(){
+        ToDoDatabase toDoDatabase = ToDoDatabase.getInstance(InstrumentationRegistry.getTargetContext());
+        toDoDatabase.todoStore().deleteAll();
+    }
+
     @Test
     public void controller() throws InterruptedException {
 
-        Controller controller = new Controller();
+        Controller controller = new Controller(InstrumentationRegistry.getTargetContext());
         PublishSubject<Action> actionSubject = PublishSubject.create();
         LinkedBlockingQueue<Result> receivedResults = new LinkedBlockingQueue<>();
 

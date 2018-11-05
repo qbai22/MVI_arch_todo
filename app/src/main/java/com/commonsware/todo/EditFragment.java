@@ -17,6 +17,10 @@ import android.view.ViewGroup;
 
 import com.commonsware.todo.databinding.TodoEditBinding;
 
+/**
+ * Created by Vladimir Kraev
+ */
+
 public class EditFragment extends Fragment {
 
     private static final String ARGS_KEY = "args_key";

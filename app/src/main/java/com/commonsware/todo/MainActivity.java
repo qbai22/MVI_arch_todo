@@ -11,6 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+/**
+ * Created by Vladimir Kraev
+ */
+
 public class MainActivity extends AppCompatActivity
         implements
         RosterListFragment.Contract,

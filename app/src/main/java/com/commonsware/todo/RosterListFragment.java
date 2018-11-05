@@ -15,21 +15,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.Objects;
 
+/**
+ * Created by Vladimir Kraev
+ */
 
 public class RosterListFragment extends Fragment {
 
     interface Contract {
         void showItemDetails(ToDoModel model);
+
         void addNewItem();
     }
 
     private RecyclerView tasksRecyclerView;
     private TextView placeholderText;
     private FloatingActionButton addItemFab;
+    private ProgressBar progressBar;
 
     private RosterViewModel viewModel;
     private RosterListAdapter adapter;
@@ -37,7 +43,7 @@ public class RosterListFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        viewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
+        viewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(RosterViewModel.class);
         super.onCreate(savedInstanceState);
     }
 
@@ -53,6 +59,7 @@ public class RosterListFragment extends Fragment {
         tasksRecyclerView = v.findViewById(R.id.tasks_recyclerview);
         placeholderText = v.findViewById(R.id.placeholder_textview);
         addItemFab = v.findViewById(R.id.fab);
+        progressBar = v.findViewById(R.id.progressBar);
 
         return v;
     }
@@ -72,9 +79,20 @@ public class RosterListFragment extends Fragment {
 
     public void render(ViewState state) {
         adapter.setState(state);
-        if (tasksRecyclerView.getAdapter().getItemCount() > 0)
+        boolean isEmpty = adapter.getItemCount() == 0;
+        boolean isLoaded = state.isLoaded();
+
+        if (isLoaded) {
+            progressBar.setVisibility(View.GONE);
+            if (isEmpty) {
+                placeholderText.setVisibility(View.VISIBLE);
+            } else {
+                placeholderText.setVisibility(View.GONE);
+            }
+        } else {
+            progressBar.setVisibility(View.VISIBLE);
             placeholderText.setVisibility(View.GONE);
-        else placeholderText.setVisibility(View.VISIBLE);
+        }
     }
 
     public void replace(ToDoModel model) {

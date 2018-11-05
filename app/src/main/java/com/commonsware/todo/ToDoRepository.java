@@ -1,60 +1,59 @@
 package com.commonsware.todo;
 
+import android.arch.persistence.db.SupportSQLiteOpenHelper;
+import android.arch.persistence.room.DatabaseConfiguration;
+import android.arch.persistence.room.InvalidationTracker;
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by Vladimir Kraev
+ */
+
 public class ToDoRepository {
 
-    private static volatile ToDoRepository INSTANCE = new ToDoRepository();
+    private static ToDoRepository INSTANCE = null;
 
-    private List<ToDoModel> items = new ArrayList<>();
+    private final ToDoDatabase toDoDatabase;
 
     //Synchronized - значит что только один тред за раз может обращатсья к этому методу
-    public synchronized static ToDoRepository get() {
+    public synchronized static ToDoRepository get(Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = new ToDoRepository(context.getApplicationContext());
+        }
+
         return INSTANCE;
     }
 
-    // Возвращаем копию потому что только репозиторий должен иметь доступ к изменению
-    // набора записей
+    private ToDoRepository(Context context) {
+        toDoDatabase = ToDoDatabase.getInstance(context);
+    }
+
     public List<ToDoModel> all() {
-        return new ArrayList<>(items);
+
+        List<ToDoEntity> entities = toDoDatabase.todoStore().getAll();
+        ArrayList<ToDoModel> result = new ArrayList<>();
+        for (ToDoEntity entity : entities) {
+            ToDoModel model = entity.toModel();
+            result.add(model);
+        }
+        return result;
     }
 
 
     public void add(ToDoModel model) {
-        items.add(model);
+        toDoDatabase.todoStore().insert(ToDoEntity.fromModel(model));
     }
 
     public void placeModel(ToDoModel model) {
-        boolean doesContain = false;
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).id().equals(model.id())) {
-                items.set(i, model);
-                doesContain = true;
-            }
-        }
-        if (!doesContain) add(model);
+        toDoDatabase.todoStore().update(ToDoEntity.fromModel(model));
     }
 
     public void delete(ToDoModel model) {
-        for (ToDoModel original : items) {
-            if (model.id().equals(original.id())) {
-                items.remove(original);
-                return;
-            }
-        }
+        toDoDatabase.todoStore().delete(ToDoEntity.fromModel(model));
     }
-
-    public ToDoModel findModel(String modelId) {
-
-        for (int i = 0; i < items.size(); i++) {
-            if (items.get(i).id().equals(modelId)) {
-                return items.get(i);
-            }
-        }
-
-        return null;
-    }
-
 
 }

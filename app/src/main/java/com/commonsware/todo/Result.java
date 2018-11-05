@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class   Result {
+/**
+ * Created by Vladimir Kraev
+ */
+
+public abstract class Result {
 
     @AutoValue
     public static abstract class Added extends Result {

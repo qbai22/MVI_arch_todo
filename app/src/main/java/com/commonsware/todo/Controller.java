@@ -2,15 +2,24 @@ package com.commonsware.todo;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
+/**
+ * Created by Vladimir Kraev
+ */
+
 public class Controller {
 
-    ToDoRepository repository = ToDoRepository.get();
+    private final ToDoRepository repository;
     PublishSubject<Result> resultSubject = PublishSubject.create();
+
+    public Controller(Context context) {
+        repository = ToDoRepository.get(context);
+    }
 
     private void processImpl(Action action) {
 

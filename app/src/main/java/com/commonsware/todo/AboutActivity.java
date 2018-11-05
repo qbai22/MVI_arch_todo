@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.webkit.WebView;
 
+/**
+ * Created by Vladimir Kraev
+ */
+
 public class AboutActivity extends FragmentActivity {
 
     WebView aboutWebView;
@@ -15,7 +19,8 @@ public class AboutActivity extends FragmentActivity {
 
         aboutWebView = findViewById(R.id.about_web_view);
         aboutWebView.loadUrl("file:///android_asset/about.html");
-    }
+
+   }
 
 
 }

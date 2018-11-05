@@ -9,7 +9,10 @@ import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 
-// TODO: 27.08.2018 проверить работает ли автогенерация класса с произвольными названиями методов
+/**
+ * Created by Vladimir Kraev
+ */
+
 @AutoValue
 public abstract class ToDoModel {
 

@@ -9,6 +9,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Created by Vladimir Kraev
+ */
+
+
 @AutoValue
 public abstract class ViewState {
 
@@ -16,6 +21,8 @@ public abstract class ViewState {
 
     @Nullable
     public abstract ToDoModel current();
+
+    public abstract boolean isLoaded();
 
     public ViewState add(ToDoModel model) {
 
@@ -65,8 +72,12 @@ public abstract class ViewState {
     }
 
 
+    /* Pre-populating a @Builder is a common way with AutoValue to provide initial
+    default values. In practice, probably the underlying boolean would be initialized to
+    false, but this way, we are making that assignment explicit. */
+
     static Builder builder() {
-        return new AutoValue_ViewState.Builder();
+        return new AutoValue_ViewState.Builder().isLoaded(false);
     }
 
 
@@ -76,16 +87,18 @@ public abstract class ViewState {
 
         abstract Builder current(ToDoModel model);
 
+        abstract Builder isLoaded(boolean isLoaded);
+
         abstract ViewState build();
+
     }
 
     static Builder empty() {
         return builder().itemList(Collections.unmodifiableList(new ArrayList<ToDoModel>()));
     }
 
-
     Builder toBuilder() {
-        return builder().itemList(itemList()).current(current());
+        return builder().itemList(itemList()).current(current()).isLoaded(isLoaded());
     }
 
     private void sort(List<ToDoModel> models) {

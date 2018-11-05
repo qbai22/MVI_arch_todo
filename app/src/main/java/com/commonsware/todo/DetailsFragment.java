@@ -18,6 +18,10 @@ import android.view.ViewGroup;
 
 import com.commonsware.todo.databinding.TodoDetailsBinding;
 
+/**
+ * Created by Vladimir Kraev
+ */
+
 public class DetailsFragment extends Fragment {
 
     private static final String ARG_ID = "arg_id";
@@ -35,7 +39,7 @@ public class DetailsFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        viewModel = ViewModelProviders.of(this).get(RosterViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(RosterViewModel.class);
         host = (AppCompatActivity) getActivity();
         super.onCreate(savedInstanceState);
     }

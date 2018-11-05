@@ -1,6 +1,7 @@
 package com.commonsware.todo;
 
 
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
@@ -11,11 +12,7 @@ import org.junit.runner.RunWith;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.*;
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
+
 @RunWith(AndroidJUnit4.class)
 public class RepoTests {
 
@@ -23,7 +20,10 @@ public class RepoTests {
 
     @Before
     public void setUp() {
-        repo = new ToDoRepository();
+        ToDoDatabase toDoDatabase = ToDoDatabase.getInstance(InstrumentationRegistry.getTargetContext());
+        toDoDatabase.todoStore().deleteAll();
+        repo = ToDoRepository.get(InstrumentationRegistry.getTargetContext());
+
         repo.add(ToDoModel.creator()
            .description("Live one more day in existential hell")
            .notes("Read a book")
@@ -44,6 +44,9 @@ public class RepoTests {
 
     @Test
     public void getAll() {
+        for(int i= 0; i < repo.all().size(); i++){
+            Log.e("TEST TAG", "getAll: " + repo.all().get(i).description());
+        }
         assertEquals(3, repo.all().size());
     }
 
@@ -56,6 +59,10 @@ public class RepoTests {
                 .build();
 
         repo.add(model);
+
+        for(int i= 0; i < repo.all().size(); i++){
+            Log.e("TEST TAG ADD", "getAll: " + repo.all().get(i).description());
+        }
 
         assertEquals(4, repo.all().size());
         assertThat(repo.all(), hasItem(model));
@@ -70,7 +77,7 @@ public class RepoTests {
                 .build();
         repo.placeModel(edited);
         assertEquals(3, repo.all().size());
-        assertSame(edited, repo.all().get(0));
+        assertEquals(edited, repo.all().get(0));
 
     }
 

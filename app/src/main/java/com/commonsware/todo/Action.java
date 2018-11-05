@@ -2,6 +2,10 @@ package com.commonsware.todo;
 
 import com.google.auto.value.AutoValue;
 
+/**
+ * Created by Vladimir Kraev
+ */
+
 public abstract class Action {
 
     @AutoValue

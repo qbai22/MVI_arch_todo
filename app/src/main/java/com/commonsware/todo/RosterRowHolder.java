@@ -5,6 +5,10 @@ import android.view.View;
 
 import com.commonsware.todo.databinding.TodoItemBinding;
 
+/**
+ * Created by Vladimir Kraev
+ */
+
 public class RosterRowHolder extends RecyclerView.ViewHolder {
 
 

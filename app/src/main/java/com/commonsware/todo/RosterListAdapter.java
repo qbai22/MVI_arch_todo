@@ -9,6 +9,10 @@ import com.commonsware.todo.databinding.TodoItemBinding;
 
 import java.util.List;
 
+/**
+ * Created by Vladimir Kraev
+ */
+
 public class RosterListAdapter extends RecyclerView.Adapter<RosterRowHolder> {
 
     RosterListFragment host;

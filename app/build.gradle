@@ -4,6 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.commonsware.todo"
+        testApplicationId "com.commonsware.todo.test"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
@@ -32,6 +33,7 @@ def autoValueVer = "1.6.2"
 def archVer = "1.1.1"
 def roomVer = "1.1.1"
 def rxJavaVer = "2.2.2"
+
 dependencies {
     //implementation fileTree(include: ['*.jar'], dir: 'libs')
     //Support
